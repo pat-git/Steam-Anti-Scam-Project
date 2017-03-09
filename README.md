@@ -8,4 +8,4 @@ This extension interacts with the website http://steam-antiscam.eu. On this webs
 FAQ: http://steam-antiscam.eu/faq.
 
 # Bugs/Issues
-Before reporting bugs/issues read the <a href='http://steam-antiscam.eu'>FAQ</a>.
+Before reporting bugs/issues read the <a href='http://steam-antiscam.eu/faq'>FAQ</a>.
