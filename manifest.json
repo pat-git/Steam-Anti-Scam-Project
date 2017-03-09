@@ -1,0 +1,45 @@
+{
+  "manifest_version": 2,
+
+  "name": "Steam Anti-Scam Project",
+  "description": "The Project should help the User to get not scammed.",
+  "version": "0.4.1.0",
+
+  "browser_action": {
+    "default_icon": "image/steam.png",
+    "default_popup": "html/settings.html"
+  },
+  "icons": {
+      "128": "image/icon128.png",
+      "16": "image/icon16.png",
+      "19": "image/icon19.png",
+      "48": "image/icon48.png"
+   },
+  "content_scripts": [
+    {
+      "matches": ["http://steamcommunity.com/profiles/*","http://www.steamcommunity.com/profiles/*","http://www.steamcommunity.com/id/*","http://steamcommunity.com/id/*","https://steamcommunity.com/profiles/*","https://www.steamcommunity.com/profiles/*","https://www.steamcommunity.com/id/*","https://steamcommunity.com/id/*"],
+      "css": ["css/profov.css"],
+      "js": ["js/jquery-1.11.3.min.js", "js/profov.js"]
+    }, 
+    {
+      "matches": ["*://*.csgolounge.com/trade?t=*"],
+      "css": ["css/loungec.css"],
+      "js": [ "js/jquery-1.11.3.min.js", "js/loungec.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["js/jquery-1.11.3.min.js" , "js/background.js"]
+  },
+  "permissions": [
+    "activeTab",
+	"*://*.steam-antiscam.eu/*",
+	"*://*.csgolounge.com/*",
+	"*://*.dota2lounge.com/*",
+	"*://steamcommunity.com/*",
+	"*://steamrep.com/*",
+	"storage",
+	"unlimitedStorage",
+	"background",
+	"alarms"
+  ]
+}
