@@ -6,3 +6,6 @@ This is the repository for the Steam Anti-Scam Project. The Steam Anti-Scam Proj
 # Website
 This extension interacts with the website http://steam-antiscam.eu. On this website can be found more information about this project.
 FAQ: http://steam-antiscam.eu/faq.
+
+# Bugs/Issues
+Before reporting bugs/issues read the <a href='http://steam-antiscam.eu'>FAQ</a>.
