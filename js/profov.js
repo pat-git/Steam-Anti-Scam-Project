@@ -1,11 +1,11 @@
 
 var donator = false;
 var scammer = false;
-var vertrader = false;
+var verifiedTrader = false;
 var creator = false;
 var staff = false;
 var sid = "0";
-var sessionID = "";
+// var sessionID = "";
 
 var idExp = /<input type="hidden" name="abuseID" value="(.+)">/g;
 
@@ -35,12 +35,12 @@ var getID = function (){
         });
 }
 var setupProfile = function (){
-	if(creator || staff){scammer = false;donator = false;vertrader = false;}
-	if(scammer){vertrader = false;donator = false;}
+	if(creator || staff){scammer = false;donator = false;verifiedTrader = false;}
+	if(scammer){verifiedTrader = false;donator = false;}
 	if(donator){
 		$( "span.actual_persona_name" ).html($( "span.actual_persona_name" ).html()+"&nbsp;<a href='http://steam-antiscam.eu/faq/?specials'><img src='http://steam-antiscam.eu/system/star.png' alt='Top Donator' style='width:29px;height:28px;float:bottom;'></a>");
 	}
-	if(vertrader){
+	if(verifiedTrader){
 		$( "span.actual_persona_name" ).html("<a href='http://steam-antiscam.eu/faq/#collapsespecial'><span class = 'special_p'>&nbsp;Verified Trader&nbsp;</span>&nbsp;</a></br>" +$( "span.actual_persona_name" ).html());
 	}
 	if(creator){
@@ -57,11 +57,11 @@ var checkDB = function(steamID64){
 	$.post( "http://steam-antiscam.eu/system/getUContent.php", { id: steamID64 }, function(data, textStatus)
     {
 		console.log("Data: " + data +   "\nsuccess");
-		if(data != "" && data != "undefined"){
+		if(data !== "" && data !== "undefined"){
 			var array = data.split("|");
-			var id = array[0];
-			var repocont = array[1];
-			var repcount = array[2];
+			// var id = array[0];
+			// var reportCount = array[1];
+			// var reputationCount = array[2];
 			var special = array[3];
 			if(special.indexOf(",") > -1){
 				console.log("2 specials\n");
@@ -73,14 +73,14 @@ var checkDB = function(steamID64){
 				switch (sp1){
 					case "creator": creator = true; break;
 					case "staff": staff = true; break;
-					case "vertrader": vertrader = true; break;
+					case "verifiedTrader": verifiedTrader = true; break;
 					case "donator": donator = true; break;
 					case "scammer": scammer = true; break;
 				}
 				switch (sp2){
 					case "creator": creator = true; break;
 					case "staff": staff = true; break;
-					case "vertrader": vertrader = true; break;
+					case "verifiedTrader": verifiedTrader = true; break;
 					case "donator": donator = true; break;
 					case "scammer": scammer = true; break;
 				}
@@ -91,7 +91,7 @@ var checkDB = function(steamID64){
 				switch (special){
 					case "creator": creator = true; break;
 					case "staff": staff = true; break;
-					case "vertrader": vertrader = true; break;
+					case "verifiedTrader": verifiedTrader = true; break;
 					case "donator": donator = true; break;
 					case "scammer": scammer = true; break;
 				}
