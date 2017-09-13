@@ -123,7 +123,6 @@ var alreadyCheckedUsers = [];
 function startUp(){
 	checkBlockedUsers();
 	getScammer();
-	setupVars();
 	refreshVars();
 	checkFriendInvites();
 	getID();
@@ -183,22 +182,6 @@ function refreshVars(){
 	ignoreCommunityBannedAtFR = JSON.parse(localStorage.getItem('ignoreCommunityBannedAtFR'));
 
 	/*-------------------------------------------------------------*/
-}
-function setupVars () {
-	/*Checks if 1 Variable is not set, if so it will be false*/
-    if (typeof(localStorage.blockLevel) === 'undefined') {
-        localStorage.blockLevel = "0";
-    }
-	if (typeof(localStorage.bucounter) === 'undefined') {
-		localStorage.bucounter = "0";
-	}
-
-    variableNames.forEach(function(variableName) {
-        console.log(typeof(localStorage.getItem(variableName)));
-        if (typeof(localStorage.getItem(variableName)) !== 'String') {
-            localStorage.setItem(variableName, "false");
-        }
-    });
 }
 
 // TIMER SECTION
