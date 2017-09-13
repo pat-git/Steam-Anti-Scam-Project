@@ -17,7 +17,10 @@
    },
   "content_scripts": [
     {
-      "matches": ["http://steamcommunity.com/profiles/*","http://www.steamcommunity.com/profiles/*","http://www.steamcommunity.com/id/*","http://steamcommunity.com/id/*","https://steamcommunity.com/profiles/*","https://www.steamcommunity.com/profiles/*","https://www.steamcommunity.com/id/*","https://steamcommunity.com/id/*"],
+      "matches": ["http://steamcommunity.com/profiles/*","http://www.steamcommunity.com/profiles/*",
+                  "http://www.steamcommunity.com/id/*","http://steamcommunity.com/id/*",
+                  "https://steamcommunity.com/profiles/*","https://www.steamcommunity.com/profiles/*",
+                  "https://www.steamcommunity.com/id/*","https://steamcommunity.com/id/*"],
       "css": ["css/profov.css"],
       "js": ["js/jquery-1.11.3.min.js", "js/profov.js"]
     }, 
