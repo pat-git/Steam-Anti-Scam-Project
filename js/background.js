@@ -70,7 +70,7 @@ var over = false;
 var id = "0";
 
 var timersOffline = false;
-var alreadyCheckedUsers = [];
+var alreadyCheckedUsers = JSON.parse(localStorage.getItem('alreadyCheckedUsers'));
 function startUp(){
     checkBlockedUsers();
     getScammer();
@@ -106,9 +106,6 @@ function createTimers(id){
             createTimers(id+1);
         },2000);
     }
-    if(debugMode) {
-        console.log("createTimer" + id);
-    }
 }
 //TIMER LISTENER
 chrome.alarms.onAlarm.addListener(function (alarm) {
@@ -117,18 +114,56 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
         if (alarm.name === "120min") {
             proof();
         } else if (alarm.name === "5min") {
-            getScammer();
             getID();
         } else if (alarm.name === "1min") {
+            refreshVars();
             checkFriendInvites();
+            getScammer();
         }
     }
 });
 
+function refreshVars(){
+    // PROFILES TO BLOCK
+    blockSteamRepBan = JSON.parse(localStorage.getItem('blockSteamRepBan'));
+    blockPrivateProfiles = JSON.parse(localStorage.getItem('blockPrivateProfiles'));
+    blockByLevel = JSON.parse(localStorage.getItem('blockByLevel'));
+    blockTradeBanned = JSON.parse(localStorage.getItem('ignoreTradeBanned'));
+    blockPrivateInventories = JSON.parse(localStorage.getItem('blockPrivateInventories'));
+    blockByName = JSON.parse(localStorage.getItem('blockByName'));
+    blockNoTF2Inventory = JSON.parse(localStorage.getItem('blockNoTF2Inventory'));
+    // Empty Inventory = no Inventory
+    blockNoDota2Inventory = JSON.parse(localStorage.getItem('blockNoDota2Inventory'));
+    blockNoCSGOInventory = JSON.parse(localStorage.getItem('blockNoCSGOInventory'));
+    // PROFILES TO IGNORE
+    ignorePrivateProfiles = JSON.parse(localStorage.getItem('ignorePrivateProfiles'));
+    ignoreByLevel = JSON.parse(localStorage.getItem('ignoreByLevel'));
+    ignoreTradeBanned = JSON.parse(localStorage.getItem('ignoreTradeBanned'));
+    ignorePrivateInventories = JSON.parse(localStorage.getItem('ignorePrivateInventories'));
+    ignoreByName = JSON.parse(localStorage.getItem('ignoreByName'));
+    ignoreNoTF2Inventory = JSON.parse(localStorage.getItem('ignoreNoTF2Inventory'));
+    ignoreNoDota2Inventory = JSON.parse(localStorage.getItem('ignoreNoDota2Inventory'));
+    ignoreNoCSGOInventory = JSON.parse(localStorage.getItem('ignoreNoCSGOInventory'));
+    // Database Vars
+    syncPrivateProfiles = JSON.parse(localStorage.getItem('syncPrivateProfiles'));
+    syncPrivateInventory = JSON.parse(localStorage.getItem('syncPrivateInventory'));
+    syncTradeBanned = JSON.parse(localStorage.getItem('syncTradeBanned'));
+    syncCommunityBanned = JSON.parse(localStorage.getItem('syncCommunityBanned'));
+    // FR = FriendRequest
+    blockPrivateProfileAtFR = JSON.parse(localStorage.getItem('blockPrivateProfileAtFR'));
+    blockPrivateInventoryAtFR = JSON.parse(localStorage.getItem('blockPrivateInventoryAtFR'));
+    blockTradeBannedAtFR = JSON.parse(localStorage.getItem('blockTradeBannedAtFR'));
+    blockCommunityBannedAtFR = JSON.parse(localStorage.getItem('blockCommunityBannedAtFR'));
+    ignorePrivateProfileAtFR = JSON.parse(localStorage.getItem('ignorePrivateProfileAtFR'));
+    ignorePrivateInventoryAtFR = JSON.parse(localStorage.getItem('ignorePrivateInventoryAtFR'));
+    ignoreTradeBannedAtFR = JSON.parse(localStorage.getItem('ignoreTradeBannedAtFR'));
+    ignoreCommunityBannedAtFR = JSON.parse(localStorage.getItem('ignoreCommunityBannedAtFR'));
+}
+
 // GET SCAMMER OF DATABASE
 function getScammer (){
     var counters = 0;
-    var max = 100;
+    var max = 50;
     $.ajax({
             method: "GET",
             url: 'http://steam-antiscam.eu/system/getEntries.php',
@@ -137,21 +172,22 @@ function getScammer (){
                 split1.forEach(function (entry) {
                     var split2 = entry.split(",");
                     // Don't spam to much Ajax Posts
-                    if (counters < max) {
+                    if (counters <= max && !alreadyBlocked(split2[0])) {
                         if (split2[1] === "support") {
                             blockUser(split2[0], split2[1]);
+                            counters++;
                         }else if (split2[1] === "Private Profile" && syncPrivateProfiles) {
                             blockUser(split2[0], split2[1]);
+                            counters++;
                         } else if (split2[1] === "Community Banned" && syncCommunityBanned) {
                             blockUser(split2[0], split2[1]);
+                            counters++;
                         } else if (split2[1] === "Trade Banned" && syncTradeBanned) {
                             blockUser(split2[0], split2[1]);
+                            counters++;
                         } else if (split2[1] === "Private Inventory" && syncPrivateInventory) {
                             blockUser(split2[0], split2[1]);
-                        }
-                    }else{
-                        if(debugMode) {
-                            console.log(max +" Synced");
+                            counters++;
                         }
                     }
                 });
@@ -204,7 +240,9 @@ function block (id64,sessionID){
 
 function checkIfAlreadyChecked (id){
     if(alreadyCheckedUsers === null || alreadyCheckedUsers === [] || alreadyCheckedUsers === undefined){
+        alreadyCheckedUsers = [];
         alreadyCheckedUsers[0] = id;
+        localStorage.setItem('alreadyCheckedUsers', JSON.stringify(alreadyCheckedUsers));
         return false;
     }else if ($.inArray(id,alreadyCheckedUsers) !== -1){
         if(debugMode) {
@@ -214,6 +252,7 @@ function checkIfAlreadyChecked (id){
     }else{
         var l = alreadyCheckedUsers.length;
         alreadyCheckedUsers[l] = id;
+        localStorage.setItem('alreadyCheckedUsers', JSON.stringify(alreadyCheckedUsers));
         return false;
     }
 }
@@ -229,6 +268,7 @@ function checkFriendInvites () {
         || ignorePrivateProfiles || ignoreByLevel || ignoreTradeBanned || ignorePrivateInventories || ignoreByName
         || blockNoDota2Inventory || blockNoCSGOInventory || blockNoTF2Inventory || ignoreNoDota2Inventory
         || ignoreNoCSGOInventory || ignoreNoTF2Inventory || blockSteamRepBan) {
+        alreadyCheckedUsers = JSON.parse(localStorage.getItem('alreadyCheckedUsers'));
         $.ajax({
             method: "GET",
             url: 'http://steamcommunity.com/my/home/invites',
@@ -262,7 +302,7 @@ function checkFriendInvites () {
                             if(debugMode) {
                                 console.log("Found some Friend Requests, checking...");
                             }
-                            if(timersOffline){
+                            if(timersOffline && counter >= 1){
                                 createTimers(0);
                                 timersOffline = false;
                                 if(debugMode) {
@@ -360,8 +400,8 @@ function checkProfiles(friendID2,sessionIDB,processURLB){
                             FriendAction(friendID2, 'ignore', sessionIDB, processURLB, true, "Private profile");
                         }
                     // Private Profile Block
-                    } else if(blockPrivateProfiles || blockPrivateInventories || blockNoDota2Inventory || blockNoTF2Inventory
-                       || blockNoCSGOInventory){
+                    } else if(blockPrivateProfiles || blockPrivateInventories || blockNoDota2Inventory
+                              || blockNoTF2Inventory|| blockNoCSGOInventory){
                         if(privateProfileExp.exec(response)){
                             FriendAction(friendID2, 'block', sessionIDB, processURLB, true, "Private profile");
                         }

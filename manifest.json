@@ -3,7 +3,7 @@
 
   "name": "Steam Anti-Scam Project",
   "description": "The Project should help the User to get not scammed.",
-  "version": "0.4.1.0",
+  "version": "0.5.0.0",
 
   "browser_action": {
     "default_icon": "image/steam.png",

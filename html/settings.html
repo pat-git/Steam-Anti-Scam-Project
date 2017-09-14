@@ -10,78 +10,137 @@
     <link href="/css/style.css" rel="stylesheet">
   </head>
   <body>
-    <nav id="nav01"></nav>
-	<script src="/js/jquery-1.11.3.min.js"></script>
-	<script src="/js/nav.js"></script>
-  <hr></hr>
-	<div id="content"> 
-  <h3> Friend Request Settings </h3>
-	<b><u>Info:</u></b> Mostly scammers send you Friend Requests, this extension checks every Friend Request if it could be a scammer, pick the options below. <a href="http://steam-antiscam.eu/faq/#collapsedesc" target="_blank">More Information</a>
-  </br></br>
-  <div class="row">
-  <div class="left">Users with private Profile: </div><div class="right"><input type="checkbox" name="" value="" id="blockPrivateProfiles"> block <input type="checkbox" name="" value="" id="ignorePrivateProfiles"> ignore</div>
+  <nav id="nav01"></nav>
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script src="/js/nav.js"></script>
+  <hr>
+  <div id="content">
+      <h3> Friend Request Settings </h3>
+      <b><u>Info:</u></b>
+      Mostly scammers send you Friend Requests, this extension checks every Friend Request if it could be a scammer,
+      pick the options below. <a href="http://steam-antiscam.eu/faq/#collapsedesc" target="_blank">More Information</a>
+      <br><br>
+      <div class="row">
+          <div class="left">Users with private Profile: </div>
+          <div class="right">
+              <input type="checkbox" name="" value="" id="blockPrivateProfiles"> block
+              <input type="checkbox" name="" value="" id="ignorePrivateProfiles"> ignore
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Users under level: </div>
+          <div class="right">
+              <input type="text" name ="" value="0" id="levelBox" maxlength="4" size="1">
+              <input type="checkbox" name="" value="" id="blockByLevel"> block
+              <input type="checkbox" name="" value="" id="ignoreByLevel"> ignore
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Users with Trade-Ban: </div>
+          <div class="right">
+              <input type="checkbox" name="" value="" id="blockTradeBanned"> block
+              <input type="checkbox" name="" value="" id="ignoreTradeBanned"> ignore
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Users with private inventory: </div>
+          <div class="right">
+              <input type="checkbox" name="" value="" id="blockPrivateInventories"> block
+              <input type="checkbox" name="" value="" id="ignorePrivateInventories"> ignore
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Users with no/private CS:GO inventory: </div>
+          <div class="right">
+              <input type="checkbox" name="" value="" id="blockNoCSGOInventory"> block
+              <input type="checkbox" name="" value="" id="ignoreNoCSGOInventory"> ignore
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Users with no/private Dota inventory: </div>
+          <div class="right">
+              <input type="checkbox" name="" value="" id="blockNoDota2Inventory"> block
+              <input type="checkbox" name="" value="" id="ignoreNoDota2Inventory"> ignore
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Users with no/private TF2 inventory: </div>
+          <div class="right">
+              <input type="checkbox" name="" value="" id="blockNoTF2Inventory"> block
+              <input type="checkbox" name="" value="" id="ignoreNoTF2Inventory"> ignore
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Users with Steam Rep Ban: </div>
+          <div class="right">
+              <input type="checkbox" name="" value="" id="blockSteamRepBan"> block
+          </div>
+      </div>
+      <br><br>
+      <hr>
+      <h3> Database Settings </h3>
+      <b><u>Info:</u></b>
+      All Scammers get saved in a Database (and get verified). If you want you can use that database to block Scammers
+      before they can add you.
+      <a href="http://steam-antiscam.eu/faq/#collapsedesc" target="_blank">More Information</a>
+      <br><br>
+      <div class="row">
+          <input type="checkbox" name="" value="" id="syncOptionCheckbox"> enable blocking before receiving a Friend
+          Request (not recommended)
+          <br><br>
+          <div class="left">Scammer with private profile:</div>
+          <div class="right">
+              <div class="hideSyncOption" style="display:none; float:left">
+                  <input type="checkbox" name="" value="" id="syncPrivateProfiles"> block before they add you
+              </div>
+              <input type="checkbox" name="" value="" id="blockPrivateProfileAtFR"> block if they're adding you
+              <input type="checkbox" name="" value="" id="ignorePrivateProfileAtFR"> ignore if they're adding you
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Scammer with private inventory:</div>
+          <div class="right">
+              <div class="hideSyncOption" style="display:none; float:left">
+                  <input type="checkbox" name="" value="" id="syncPrivateInventory"> block before they add you
+              </div>
+              <input type="checkbox" name="" value="" id="blockPrivateInventoryAtFR"> block if they're adding you
+              <input type="checkbox" name="" value="" id="ignorePrivateInventoryAtFR"> ignore if they're adding you
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Scammer with trade ban:</div>
+          <div class="right">
+              <div class="hideSyncOption" style="display:none; float:left">
+                  <input type="checkbox" name="" value="" id="syncTradeBanned"> block before they add you
+              </div>
+              <input type="checkbox" name="" value="" id="blockTradeBannedAtFR"> block if they're adding you
+              <input type="checkbox" name="" value="" id="ignoreTradeBannedAtFR"> ignore if they're adding you
+          </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="left">Scammer with community ban:</div>
+          <div class="right">
+              <div class="hideSyncOption" style="display:none; float:left">
+                  <input type="checkbox" name="" value="" id="syncCommunityBanned"> block before they add you
+              </div>
+              <input type="checkbox" name="" value="" id="blockCommunityBannedAtFR"> block if they're adding you
+              <input type="checkbox" name="" value="" id="ignoreCommunityBannedAtFR"> ignore if they're adding you
+          </div>
+      </div>
+      <br><br>
+      Blocked user: <div id = "counter"> </div>
+      <script src="/js/settings.js"></script>
   </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Users under level: </div><div class="right"><input type="text" name ="" value="0" id="levelBox" maxlength="3" size="3"> <input type="checkbox" name="" value="" id="blockByLevel"> block <input type="checkbox" name="" value="" id="ignoreByLevel"> ignore</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Users with Trade-Ban: </div><div class="right"><input type="checkbox" name="" value="" id="blockTradeBanned"> block <input type="checkbox" name="" value="" id="ignoreTradeBanned"> ignore</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Users with private inventory: </div><div class="right"><input type="checkbox" name="" value="" id="blockPrivateInventories"> block <input type="checkbox" name="" value="" id="ignorePrivateInventories"> ignore</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Users with no/private CS:GO inventory: </div><div class="right"><input type="checkbox" name="" value="" id="blockNoCSGOInventory"> block <input type="checkbox" name="" value="" id="ignoreNoCSGOInventory"> ignore</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Users with no/private Dota inventory: </div><div class="right"><input type="checkbox" name="" value="" id="blockNoDota2Inventory"> block <input type="checkbox" name="" value="" id="ignoreNoDota2Inventory"> ignore</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Users with no/private TF2 inventory: </div><div class="right"><input type="checkbox" name="" value="" id="blockNoTF2Inventory"> block <input type="checkbox" name="" value="" id="ignoreNoTF2Inventory"> ignore</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Users with Steam Rep Ban: </div><div class="right"><input type="checkbox" name="" value="" id="blockSteamRepBan"> block</div>
-  </div>
-  </br></br>
-  <hr></hr>
-  <h3> Database Settings </h3>
-  <b><u>Info:</u></b> All Scammers get saved in a Database (and get verified). If you want you can use that database to block Scammers before they can add you. <a href="http://steam-antiscam.eu/faq/#collapsedesc" target="_blank">More Information</a>
-  </br></br>
-  <div class="row">
-  <div class="left">Verified Scammer with private profile:</div><div class="right"><input type="checkbox" name="" value="" id="syncPrivateProfiles"> block before they add you <input type="checkbox" name="" value="" id="blockPrivateProfileAtFR"> block if they're adding you <input type="checkbox" name="" value="" id="ignorePrivateProfileAtFR"> ignore if they're adding you</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Verified Scammer with private inventory:</div><div class="right"><input type="checkbox" name="" value="" id="syncPrivateInventory"> block before they add you <input type="checkbox" name="" value="" id="blockPrivateInventoryAtFR"> block if they're adding you <input type="checkbox" name="" value="" id="ignorePrivateInventoryAtFR"> ignore if they're adding you</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Verified Scammer with trade ban:</div><div class="right"><input type="checkbox" name="" value="" id="syncTradeBanned"> block before they add you <input type="checkbox" name="" value="" id="blockTradeBannedAtFR"> block if they're adding you <input type="checkbox" name="" value="" id="ignoreTradeBannedAtFR"> ignore if they're adding you</div>
-  </div>
-  </br></br>
-  <div class="row">
-  <div class="left">Verified Scammer with community ban:</div><div class="right"><input type="checkbox" name="" value="" id="syncCommunityBanned"> block before they add you <input type="checkbox" name="" value="" id="blockCommunityBannedAtFR"> block if they're adding you <input type="checkbox" name="" value="" id="ignoreCommunityBannedAtFR"> ignore if they're adding you</div>
-  </div>
-   <!-- Users with following names: <input type="checkbox" name="" value="" id="checkn"> block <input type="checkbox" name="" value="" id="ignoreByName"> ignore
-    </br></br>
-	<textarea name="" cols="104" rows="6" id="users"></textarea>
-	</br>
-	Please seperate every entry with comma (',').  
-	<button type="button" id="update" style="float:right;">Update</button>
-	</br></br>-->
-  </br></br>
-	Blocked user: <div id = "counter"> </div>
-    
-	<script src="/js/settings.js"></script>
-	
-	</div>
   </body>
 </html>
 

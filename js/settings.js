@@ -45,8 +45,32 @@ $(document).ready(function () {
 });
 
 function registerHandlers() {
-    //document.getElementById("update").onclick = updateUsers;
-
+    // Level textbox
+    $('#levelBox').on('change keyup paste',function() {
+        if (isNumeric($(this).val()) && $(this).val().indexOf("e") === -1) {
+            localStorage.setItem('blockLevel', $(this).val());
+        } else if($(this).val() === "" || $(this).val() === " "){
+            isNumeric($(this).val(0))
+        } else {
+            $(this).val(localStorage.getItem('blockLevel'));
+        }
+        valueChanged();
+    });
+    // 1 Option Value
+    $('#syncOptionCheckbox').change(function() {
+        if($(this).is(":checked")) {
+            localStorage.setItem('syncOptionEnabled', "true");
+            $(".hideSyncOption").show();
+        }else{
+            localStorage.setItem('syncOptionEnabled', "false");
+            variablesDBSync.forEach(function(variableName) {
+                localStorage.setItem(variableName, "false");
+                document.getElementById(variableName).checked = false;
+            });
+            valueChanged();
+            $(".hideSyncOption").hide();
+        }
+    });
     // 1 Option Value
     $('#blockSteamRepBan').change(function() {
         if($(this).is(":checked")) {
@@ -54,10 +78,7 @@ function registerHandlers() {
         }else{
             localStorage.setItem('blockSteamRepBan', "false");
         }
-    });
-    $('#levelBox').change(function() {
-        var level = $("#levelBox").val();
-        localStorage.setItem('blockLevel', level);
+        valueChanged();
     });
 
     // 2 Options Values
@@ -71,6 +92,7 @@ function registerHandlers() {
             }else{
                 localStorage.setItem(variableName, "false");
             }
+            valueChanged();
         });
     });
     variablesBlock.forEach(function(variableName, index) {
@@ -82,6 +104,7 @@ function registerHandlers() {
             }else{
                 localStorage.setItem(variableName, "false");
             }
+            valueChanged();
         });
     });
 
@@ -97,6 +120,7 @@ function registerHandlers() {
             }else{
                 localStorage.setItem(variableName, "false");
             }
+            valueChanged();
         });
     });
     variablesDBIgnore.forEach(function(variableName, index) {
@@ -110,6 +134,7 @@ function registerHandlers() {
             }else{
                 localStorage.setItem(variableName, "false");
             }
+            valueChanged();
         });
     });
     variablesDBSync.forEach(function(variableName, index) {
@@ -123,6 +148,7 @@ function registerHandlers() {
             }else{
                 localStorage.setItem(variableName, "false");
             }
+            valueChanged();
         });
     });
 }
@@ -138,13 +164,16 @@ function loadOptions () {
             // For some reason jQuery does not update the check box using this code:
             //$('#' + variableName).checked = true;
 
-            document.getElementById(variableName).checked=true;
+            document.getElementById(variableName).checked = true;
         } else {
             //console.log(variableName + " not checked");
         }
     });
-
-	$("#levelBox").value = localStorage.getItem('blockLevel');
+    if(localStorage.getItem('syncOptionEnabled') === "true"){
+        $(".hideSyncOption").show();
+        document.getElementById("syncOptionCheckbox").checked = true;
+    }
+	$("#levelBox").val(localStorage.getItem('blockLevel'));
 }
 function loadUsers (){
     if (typeof(localStorage.busers) !== 'undefined') {
@@ -156,15 +185,15 @@ function loadUsers (){
         $("#users").value = text;
     }
 }
-function updateUsers () {
-		var unsplit = document.getElementById("users").value;
-		var split = unsplit.split(",");
-		localStorage.busers = JSON.stringify(split);
-		console.log("Updating Users");
-}
 function setupCounter(){
 		if (typeof(localStorage.bucounter) === 'undefined') {
 			localStorage.bucounter = "0";
 		}
 		$('#counter').html(localStorage.bucounter);
+}
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+function valueChanged (){
+    localStorage.setItem('alreadyCheckedUsers', null);
 }
