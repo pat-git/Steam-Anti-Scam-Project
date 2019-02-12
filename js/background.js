@@ -9,17 +9,17 @@ var sessionIDExp = /<input type="hidden" name="sessionID" value="(.+)" id="sessi
 var sessionIDJSExp = /g_sessionID = "(.+)";/;
 
 // Steam Invite
-var inviteLvlExp = /<a class="linkStandard" href="javascript:FriendAccept\( '(\d+)', 'block' \)">/g;
+var inviteLvlExp = /javascript:ApplyFriendAction\(.*'accept', '(\d+)'.*\)/g;
 
 // Steam REP
 
 var scammerExp = /<span id="steamname" title="(.+)" class="steamname scammername">/g;
 
 // Steam Profile
-var privateProfileExp = /<div class="profile_private_info">/g;
+var privateProfileExp = /class="no_header profile_page private_profile"/g;
 var steamTradeBanExp = /<div class="profile_ban">(.+)<\/div>/g;
 var steamNameExp = /<span class="actual_persona_name">(.+)<\/span>/g;
-var steamVacBanExp = /<span class="profile_ban_info">| <a class="whiteLink" href="http:\/\/steamcommunity.com\/actions\/WhatIsVAC">Informationen<\/a><\/span>/g;
+var steamVacBanExp = /(\d).*VAC/g;
 var blockedExp = /<span class="blockedText">/g;
 var idExp = /<input type="hidden" name="abuseID" value="(.+)">/g;
 
@@ -273,11 +273,14 @@ function checkFriendInvites () {
             method: "GET",
             url: 'http://steamcommunity.com/my/home/invites',
             success: function (response) {
+                console.log(inviteLvlExp.exec(response));
                         var sessionID = sessionIDExp.exec(response);
                         var processURL = processURLExp.exec(response);
                         if (sessionID) sessionID = sessionID[1];
                         if (processURL) processURL = processURL[1];
                         var m;
+                        console.log(processURL);
+                        console.log(sessionID);
                         var counter = 0;
                         while (m = inviteLvlExp.exec(response)) {
                             if(counter < 2 && checkIfAlreadyChecked(m[1]) === false){
@@ -373,6 +376,9 @@ function checkProfiles(friendID2,sessionIDB,processURLB){
                     // Bad name
                     if(blockByName || ignoreByName) {
                         while (m = steamNameExp.exec(response)) {
+                            if(m[1] === "" || m[1] === "&nbsp;") {
+                                continue;
+                            }
                             var name = m[1];
                             if (typeof(localStorage.busers) !== 'undefined') {
                                 var array = JSON.parse(localStorage.busers);
@@ -625,7 +631,10 @@ function FriendAction (friendID64, action, sessionID, processURL, send, reason) 
                         var m;
                         var name = "";
                         while(m = steamNameExp.exec(response)){
-                            name = m[1];
+                            if (!(m[1] === "" || m[1] === "&nbsp;")) {
+                                name = m[1];
+                                break;
+                            }
                         }
                         sendEntry(friendID64,name);
                     }
@@ -645,6 +654,7 @@ function getID (){
                     var m;
                     if(m = idExp.exec(response)){
                         id = m[1];
+                        console.log("User steamid:" + id);
                         if (typeof(localStorage.sessionID) === 'undefined') {
                             register(id);
                         }
